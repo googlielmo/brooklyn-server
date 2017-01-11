@@ -126,7 +126,9 @@ public class ComputeServiceRegistryImpl implements ComputeServiceRegistry, Jclou
         }
 
         // FIXME Deprecated mechanism, should have a ConfigKey for overrides
-        Map<String, Object> extra = Maps.filterKeys(conf.getAllConfig(), Predicates.containsPattern("^jclouds\\."));
+        Map<String, Object> extra = Maps.filterKeys(conf.getAllConfig(), Predicates.or(
+                Predicates.containsPattern("^jclouds\\."),
+                Predicates.equalTo("oauth.endpoint")));
         if (extra.size() > 0) {
             LOG.warn("Jclouds using deprecated property overrides: "+Sanitizer.sanitize(extra));
         }
